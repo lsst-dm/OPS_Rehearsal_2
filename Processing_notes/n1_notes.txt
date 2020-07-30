@@ -1,0 +1,49 @@
+There are three rerun for night 20200727 (n1):
+
+* /project/shared/comCam/rerun/CALSET_20200727_2114
+ commands ran:
+
+REPODIR=/project/shared/comCam/
+reponame=CALSET_20200727_2114
+calibname=CALIB_20200727_2114
+
+constructBias.py $REPODIR --rerun $reponame --id expId=2020072700001^2020072700002^2020072700003^2020072700004^2020072700005^2020072700006^2020072700007^2020072700008^2020072700011^2020072700012 --batch-type slurm --cores 10 -c isr.doCrosstalk=False --clobber-versions --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/bias/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructDark.py $REPODIR --rerun $reponame --id expId=2020072700013^2020072700014^2020072700015^2020072700016^2020072700017^2020072700018^2020072700019^2020072700020^2020072700021^2020072700022 --batch-type slurm --cores 10 -c isr.doCrosstalk=False repair.cosmicray.nCrPixelMax=1000000 --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/dark/*/*.fits  --validity 9999 --mode=link --calib $REPODIR/$calibname --config clobber=True
+constructFlat.py $REPODIR --rerun $reponame --id expId=2020072700023^2020072700024^2020072700025^2020072700026^2020072700027^2020072700028^2020072700029^2020072700030^2020072700031^2020072700032 filter=r --batch-type slurm --cores 10 --time 900 -c isr.doCrosstalk=False
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/flat/*/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+
+Problem with n1: /project/shared/comCam/CALIB was ready-only. All calibrations files for constructDark and constructFlar came from  /project/shared/comCam/CALIB/bias/2020-07-08 as no --config was specified.
+
+* /project/shared/comCam/rerun/CALSET_20200727_2114_v2
+commands ran:
+
+REPODIR=/project/shared/comCam/
+reponame=CALSET_20200727_2114_v2
+calibname=CALIB_20200727_2114_v2
+
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/bias/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructDark.py $REPODIR --calib $REPODIR/CALIB_20200727_2114 --rerun $reponame --id expId=2020072700013^2020072700014^2020072700015^2020072700016^2020072700017^2020072700018^2020072700019^2020072700020^2020072700021^2020072700022 --batch-type slurm --cores 10 -c isr.doCrosstalk=False repair.cosmicray.nCrPixelMax=1000000 --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/dark/*/*.fits  --validity 9999 --mode=link --calib $REPODIR/$calibname --config clobber=True
+
+This run was to see if adding --config option with proper calib dir will improve master dark.
+
+* /project/shared/comCam/rerun/CALSET_20200727_2114_v2
+commands ran:
+
+REPODIR=/project/shared/comCam/
+reponame=CALSET_20200727_2114_v3
+calibname=CALIB
+
+constructBias.py $REPODIR --rerun $reponame --id expId=2020072700001^2020072700002^2020072700003^2020072700004^2020072700005^2020072700006^2020072700007^2020072700008^2020072700011^2020072700012 --batch-type slurm --cores 10 -c isr.doCrosstalk=False --clobber-versions --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/bias/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructDark.py $REPODIR --rerun $reponame --id expId=2020072700013^2020072700014^2020072700015^2020072700016^2020072700017^2020072700018^2020072700019^2020072700020^2020072700021^2020072700022 --batch-type slurm --cores 10 -c isr.doCrosstalk=False repair.cosmicray.nCrPixelMax=1000000 --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/dark/*/*.fits  --validity 9999 --mode=link --calib $REPODIR/$calibname --config clobber=True
+constructFlat.py $REPODIR --rerun $reponame --id expId=2020072700023^2020072700024^2020072700025^2020072700026^2020072700027^2020072700028^2020072700029^2020072700030^2020072700031^2020072700032 filter=r --batch-type slurm --cores 10 --time 900 -c isr.doCrosstalk=False
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/flat/*/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+
+                                                                                                                                
+
+
+
