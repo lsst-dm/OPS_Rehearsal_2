@@ -1,4 +1,4 @@
-There are three reruns for night 20200728 (n2)
+There are two reruns for night 20200728 (n2)
 
 * /project/shared/comCam/rerun/CALSET_20200728_1920
  commands ran:

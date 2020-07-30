@@ -1,0 +1,18 @@
+There is one rerun for night 20200729 (n3)
+
+* /project/shared/comCam/rerun/CALSET_20200729_1847
+ commands ran:
+
+REPODIR=/project/shared/comCam
+reponame=CALSET_20200729_1847
+calibname=CALIB
+#mkdir -p $REPODIR/$reponame
+
+constructBias.py $REPODIR  --rerun $reponame --id expId=2020072900001..2020072900010 --batch-type none -j 10 -c isr.doCrosstalk=False --clobber-versions
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/bias/*/*.fits  --validity 9999 --mode=link --calib $REPODIR/$calibname/CALIB-20200729
+constructDark.py $REPODIR --rerun /home/madamow/calib_tests --id expId=2020072900011..2020072900020 --batch-type slurm --cores 10 --time 600 -c isr.doCrosstalk=False repair.cosmicray.nCrPixelMax=1000000 
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/dark/*/*.fits  --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructFlat.py $REPODIR --rerun $reponame --id expId=2020072900021^2020072900022^2020072900023^2020072900026^2020072900027^2020072900028^2020072900029^2020072900030^2020072900031^2020072900032 filter=r --batch-type slurm --cores 10 --time 900 -c isr.doCrosstalk=False
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/flat/*/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+
+There was no nodes avaliable at the time the run was done, so contructBias.py was not ran with slurm 
