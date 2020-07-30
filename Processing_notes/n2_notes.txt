@@ -1,0 +1,50 @@
+There are three reruns for night 20200728 (n2)
+
+* /project/shared/comCam/rerun/CALSET_20200728_1920
+ commands ran:
+
+REPODIR=/project/shared/comCam/
+reponame=CALSET_20200728_1920
+calibname=CALIB_20200728_1920
+
+constructBias.py $REPODIR --rerun $reponame --id expId=2020072800035..2020072800044 --batch-type slurm --cores 10 -c isr.doCrosstalk=False --clobber-versions --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/bias/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructDark.py $REPODIR --rerun $reponame  --id expId=2020072800045^2020072800046^2020072800048^2020072800049^2020072800050^2020072800051^2020072800052^2020072800053^2020072800054 --batch-type slurm --cores 8 -c isr.doCrosstalk=False repair.cosmicray.nCrPixelMax=1000000 --time 900 --clobber-versions
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/dark/*/*.fits  --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructFlat.py $REPODIR --rerun $reponame --id expId=2020072800055..2020072800064 filter=r --batch-type slurm --cores 10 --time 900 -c isr.doCrosstalk=False
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/flat/*/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+
+
+Problem : /project/shared/comCam/CALIB was ready-only. All calibrations files for constructDark and constructFlar came from  /project/shared/comCam/CALIB/bias/2020-07-08 as no --config was specified.
+
+* /project/shared/comCam/rerun/CALSET_20200728_1920_v2
+commands ran:
+
+REPODIR=/project/shared/comCam/
+reponame=CALSET_20200728_1920_v2
+calibname=CALIB
+
+constructBias.py $REPODIR --rerun $reponame --id expId=2020072800035..2020072800044 --batch-type slurm --cores 10 -c isr.doCrosstalk=False --clobber-versions --time 900
+ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/bias/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
+constructDark.py $REPODIR --rerun $reponame  --id expId=2020072800045^2020072800046^2020072800048^2020072800049^2020072800050^2020072800051^2020072800052^2020072800053^2020072800054 --batch-type slurm --cores 9 -c isr.doCrosstalk=False repair.cosmicray.nCrPixelMax=1000000 --time 900 --clobber-versions
+
+Ended with error:
+CameraMapper INFO: Loading exposure registry from /lsstdata/offline/teststand/comcam/Archiver/gen2repo/registry.sqlite3
+CameraMapper INFO: Loading calib registry from /project/shared/comCam/CALIB/calibRegistry.sqlite3
+CameraMapper INFO: Loading calib registry from /project/shared/comCam/CALIB/calibRegistry.sqlite3
+LsstCamMapper WARN: Unable to find valid calib root directory
+CameraMapper INFO: Loading exposure registry from /lsstdata/offline/teststand/comcam/Archiver/gen2repo/registry.sqlite3
+CameraMapper INFO: Loading calib registry from /project/shared/comCam/CALIB/calibRegistry.sqlite3
+CameraMapper INFO: Loading calib registry from /project/shared/comCam/CALIB/calibRegistry.sqlite3
+dark INFO: Scatter processing
+dark INFO: Processing DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()) on lsst-dev01.ncsa.illinois.edu:246216
+dark.isr INFO: Performing ISR on sensor DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()).
+LsstCamAssembler WARN: DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()): outAmp.getRawBBox() != data.getBBox(); patching. ((minimum=(0, 0), maximum=(543, 2047)) v. (minimum=(0, 0), maximum=(575, 2047)))
+LsstCamAssembler WARN: argDict[boresightAirmass] is None; stripping
+LsstCamMapper WARN: Unable to set WCS for DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()) from header as RA/Dec/Angle are unavailable
+CameraMapper WARN: Cannot create SkyWcs using VisitInfo and Detector, using metadata-based SkyWcs: Cannot create SkyWcs from camera geometry: rotator angle defined using RotType=RotType.UNKNOWN instead of SKY.
+dark WARN: Unable to process DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()): Unable to retrieve bias for DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()): No registry for lookup.
+dark FATAL: Failed: Unable to retrieve bias for DataId(initialdata={'expId': 2020072800045, 'dayObs': '2020-07-28', 'raftName': 'R22', 'detectorName': 'S00', 'detector': 0, 'snap': 0}, tag=set()): No registry for lookup.
+
+Possibly to bug in ingestCalibs.py
+
