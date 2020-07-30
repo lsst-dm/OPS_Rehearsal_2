@@ -1,4 +1,4 @@
-There are three rerun for night 20200727 (n1):
+There are three reruns for night 20200727 (n1):
 
 * /project/shared/comCam/rerun/CALSET_20200727_2114
  commands ran:
@@ -14,7 +14,7 @@ ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/dark/*/*.fits  --validity 9999
 constructFlat.py $REPODIR --rerun $reponame --id expId=2020072700023^2020072700024^2020072700025^2020072700026^2020072700027^2020072700028^2020072700029^2020072700030^2020072700031^2020072700032 filter=r --batch-type slurm --cores 10 --time 900 -c isr.doCrosstalk=False
 ingestCalibs.py $REPODIR $REPODIR/rerun/$reponame/flat/*/*/*.fits --validity 9999 --mode=link --calib $REPODIR/$calibname
 
-Problem with n1: /project/shared/comCam/CALIB was ready-only. All calibrations files for constructDark and constructFlar came from  /project/shared/comCam/CALIB/bias/2020-07-08 as no --config was specified.
+Problem: /project/shared/comCam/CALIB was ready-only. All calibrations files for constructDark and constructFlar came from  /project/shared/comCam/CALIB/bias/2020-07-08 as no --config was specified.
 
 * /project/shared/comCam/rerun/CALSET_20200727_2114_v2
 commands ran:
